@@ -1,93 +1,93 @@
 # OpenAI Realtime Console
 
-This is an example application showing how to use the [OpenAI Realtime API](https://platform.openai.com/docs/guides/realtime) with [WebRTC](https://platform.openai.com/docs/guides/realtime-webrtc).
+[WebRTC](https://platform.openai.com/docs/guides/realtime-webrtc) を使って [OpenAI Realtime API](https://platform.openai.com/docs/guides/realtime) を利用する方法を示すサンプルアプリケーションです。
 
-## Installation and usage
+## インストールと使い方
 
-Before you begin, you'll need an OpenAI API key - [create one in the dashboard here](https://platform.openai.com/settings/api-keys). Create a `.env` file from the example file and set your API key in there:
+はじめに OpenAI の API キーが必要です。[ダッシュボードで作成してください](https://platform.openai.com/settings/api-keys)。サンプルファイルから `.env` ファイルを作成し、API キーを設定します。
 
 ```bash
 cp .env.example .env
 ```
 
-Running this application locally requires [Node.js](https://nodejs.org/) to be installed. Install dependencies for the application with:
+ローカルで実行するには [Node.js](https://nodejs.org/) が必要です。依存パッケージをインストールします。
 
 ```bash
 npm install
 ```
 
-Start the application server with:
+開発サーバーを起動します。
 
 ```bash
 npm run dev
 ```
 
-This should start the console application on [http://localhost:3000](http://localhost:3000).
+[http://localhost:3000](http://localhost:3000) でアプリケーションが起動します。
 
-This application is a minimal template that uses [express](https://expressjs.com/) to serve the React frontend contained in the [`/client`](./client) folder. The server is configured to use [vite](https://vitejs.dev/) to build the React frontend.
+このアプリは [express](https://expressjs.com/) を使って [`/client`](./client) フォルダの React フロントエンドを提供する最小構成のテンプレートです。サーバーは [vite](https://vitejs.dev/) を使って React フロントエンドをビルドします。
 
-This application shows how to send and receive Realtime API events over the WebRTC data channel and configure client-side function calling. You can also view the JSON payloads for client and server events using the logging panel in the UI.
+WebRTC データチャネルを通じた Realtime API イベントの送受信方法と、クライアントサイドのファンクションコーリングの設定方法を示しています。UI のログパネルでクライアント・サーバーイベントの JSON ペイロードを確認することもできます。
 
-## Building for production
+## プロダクションビルド
 
-To build the application for production, run:
+プロダクション向けにビルドするには以下を実行します。
 
 ```bash
 npm run build
 ```
 
-This compiles the React frontend into `dist/client/` and the server into `dist/server/`. To start the production server after building:
+React フロントエンドが `dist/client/` に、サーバーが `dist/server/` にコンパイルされます。ビルド後にプロダクションサーバーを起動するには以下を実行します。
 
 ```bash
 npm run start
 ```
 
-The server reads the `PORT` environment variable (default: `3000`) and requires `OPENAI_API_KEY` to be set.
+サーバーは `PORT` 環境変数（デフォルト: `3000`）を参照します。`OPENAI_API_KEY` の設定が必要です。
 
-## Deploying to the internet
+## インターネット上に公開する
 
-You can host this application on any platform that supports Node.js. Below are instructions for some common options.
+Node.js に対応した任意のプラットフォームにホストできます。代表的なサービスの手順を以下に示します。
 
 ### Railway
 
-1. Push your code to a GitHub repository.
-2. Open [Railway](https://railway.app/) and create a new project from that repository.
-3. Add the `OPENAI_API_KEY` environment variable in the Railway project settings.
-4. Railway automatically detects the `npm run start` start command and deploys the app. The public URL is shown in the project dashboard.
+1. コードを GitHub リポジトリにプッシュします。
+2. [Railway](https://railway.app/) を開き、そのリポジトリから新しいプロジェクトを作成します。
+3. Railway のプロジェクト設定で `OPENAI_API_KEY` 環境変数を追加します。
+4. Railway が `npm run start` を自動検出してデプロイします。公開 URL はプロジェクトダッシュボードに表示されます。
 
 ### Render
 
-1. Push your code to a GitHub repository.
-2. Create a new **Web Service** on [Render](https://render.com/) and connect the repository.
-3. Set the following in the service settings:
+1. コードを GitHub リポジトリにプッシュします。
+2. [Render](https://render.com/) で新しい **Web Service** を作成し、リポジトリを連携します。
+3. サービス設定で以下を入力します。
    - **Build Command**: `npm install && npm run build`
    - **Start Command**: `npm run start`
-4. Add `OPENAI_API_KEY` as an environment variable.
-5. Deploy — Render provides a public `*.onrender.com` URL.
+4. `OPENAI_API_KEY` を環境変数として追加します。
+5. デプロイすると `*.onrender.com` の公開 URL が発行されます。
 
 ### Fly.io
 
-1. Install the [Fly CLI](https://fly.io/docs/hands-on/install-flyctl/) and log in with `fly auth login`.
-2. From the project directory, run:
+1. [Fly CLI](https://fly.io/docs/hands-on/install-flyctl/) をインストールし、`fly auth login` でログインします。
+2. プロジェクトディレクトリで以下を実行します。
    ```bash
    fly launch
    ```
-3. Set your API key as a secret:
+3. API キーをシークレットとして設定します。
    ```bash
    fly secrets set OPENAI_API_KEY=<your-key-here>
    ```
-4. Deploy with:
+4. デプロイします。
    ```bash
    fly deploy
    ```
-5. Your app will be available at `https://<app-name>.fly.dev`.
+5. `https://<app-name>.fly.dev` でアプリにアクセスできます。
 
-For a more comprehensive example, see the [OpenAI Realtime Agents](https://github.com/openai/openai-realtime-agents) demo built with Next.js, using an agentic architecture inspired by [OpenAI Swarm](https://github.com/openai/swarm).
+より充実したサンプルとして、[OpenAI Swarm](https://github.com/openai/swarm) に着想を得たエージェントアーキテクチャを採用した Next.js 製の [OpenAI Realtime Agents](https://github.com/openai/openai-realtime-agents) デモもあります。
 
-## Previous WebSockets version
+## 旧 WebSockets 版
 
-The previous version of this application that used WebSockets on the client (not recommended in browsers) [can be found here](https://github.com/openai/openai-realtime-console/tree/websockets).
+クライアント側で WebSockets を使用していた旧バージョン（ブラウザでの使用は非推奨）は[こちら](https://github.com/openai/openai-realtime-console/tree/websockets)で確認できます。
 
-## License
+## ライセンス
 
 MIT
