@@ -1,39 +1,93 @@
 # OpenAI Realtime Console
 
-This is an example application showing how to use the [OpenAI Realtime API](https://platform.openai.com/docs/guides/realtime) with [WebRTC](https://platform.openai.com/docs/guides/realtime-webrtc).
+[WebRTC](https://platform.openai.com/docs/guides/realtime-webrtc) を使って [OpenAI Realtime API](https://platform.openai.com/docs/guides/realtime) を利用する方法を示すサンプルアプリケーションです。
 
-## Installation and usage
+## インストールと使い方
 
-Before you begin, you'll need an OpenAI API key - [create one in the dashboard here](https://platform.openai.com/settings/api-keys). Create a `.env` file from the example file and set your API key in there:
+はじめに OpenAI の API キーが必要です。[ダッシュボードで作成してください](https://platform.openai.com/settings/api-keys)。サンプルファイルから `.env` ファイルを作成し、API キーを設定します。
 
 ```bash
 cp .env.example .env
 ```
 
-Running this application locally requires [Node.js](https://nodejs.org/) to be installed. Install dependencies for the application with:
+ローカルで実行するには [Node.js](https://nodejs.org/) が必要です。依存パッケージをインストールします。
 
 ```bash
 npm install
 ```
 
-Start the application server with:
+開発サーバーを起動します。
 
 ```bash
 npm run dev
 ```
 
-This should start the console application on [http://localhost:3000](http://localhost:3000).
+[http://localhost:3000](http://localhost:3000) でアプリケーションが起動します。
 
-This application is a minimal template that uses [express](https://expressjs.com/) to serve the React frontend contained in the [`/client`](./client) folder. The server is configured to use [vite](https://vitejs.dev/) to build the React frontend.
+このアプリは [express](https://expressjs.com/) を使って [`/client`](./client) フォルダの React フロントエンドを提供する最小構成のテンプレートです。サーバーは [vite](https://vitejs.dev/) を使って React フロントエンドをビルドします。
 
-This application shows how to send and receive Realtime API events over the WebRTC data channel and configure client-side function calling. You can also view the JSON payloads for client and server events using the logging panel in the UI.
+WebRTC データチャネルを通じた Realtime API イベントの送受信方法と、クライアントサイドのファンクションコーリングの設定方法を示しています。UI のログパネルでクライアント・サーバーイベントの JSON ペイロードを確認することもできます。
 
-For a more comprehensive example, see the [OpenAI Realtime Agents](https://github.com/openai/openai-realtime-agents) demo built with Next.js, using an agentic architecture inspired by [OpenAI Swarm](https://github.com/openai/swarm).
+## プロダクションビルド
 
-## Previous WebSockets version
+プロダクション向けにビルドするには以下を実行します。
 
-The previous version of this application that used WebSockets on the client (not recommended in browsers) [can be found here](https://github.com/openai/openai-realtime-console/tree/websockets).
+```bash
+npm run build
+```
 
-## License
+React フロントエンドが `dist/client/` に、サーバーが `dist/server/` にコンパイルされます。ビルド後にプロダクションサーバーを起動するには以下を実行します。
+
+```bash
+npm run start
+```
+
+サーバーは `PORT` 環境変数（デフォルト: `3000`）を参照します。`OPENAI_API_KEY` の設定が必要です。
+
+## インターネット上に公開する
+
+Node.js に対応した任意のプラットフォームにホストできます。代表的なサービスの手順を以下に示します。
+
+### Railway
+
+1. コードを GitHub リポジトリにプッシュします。
+2. [Railway](https://railway.app/) を開き、そのリポジトリから新しいプロジェクトを作成します。
+3. Railway のプロジェクト設定で `OPENAI_API_KEY` 環境変数を追加します。
+4. Railway が `npm run start` を自動検出してデプロイします。公開 URL はプロジェクトダッシュボードに表示されます。
+
+### Render
+
+1. コードを GitHub リポジトリにプッシュします。
+2. [Render](https://render.com/) で新しい **Web Service** を作成し、リポジトリを連携します。
+3. サービス設定で以下を入力します。
+   - **Build Command**: `npm install && npm run build`
+   - **Start Command**: `npm run start`
+4. `OPENAI_API_KEY` を環境変数として追加します。
+5. デプロイすると `*.onrender.com` の公開 URL が発行されます。
+
+### Fly.io
+
+1. [Fly CLI](https://fly.io/docs/hands-on/install-flyctl/) をインストールし、`fly auth login` でログインします。
+2. プロジェクトディレクトリで以下を実行します。
+   ```bash
+   fly launch
+   ```
+3. API キーをシークレットとして設定します。
+   ```bash
+   fly secrets set OPENAI_API_KEY=<your-key-here>
+   ```
+4. デプロイします。
+   ```bash
+   fly deploy
+   ```
+5. `https://<app-name>.fly.dev` でアプリにアクセスできます。
+
+より充実したサンプルとして、[OpenAI Swarm](https://github.com/openai/swarm) に着想を得たエージェントアーキテクチャを採用した Next.js 製の [OpenAI Realtime Agents](https://github.com/openai/openai-realtime-agents) デモもあります。
+
+## 旧 WebSockets 版
+
+クライアント側で WebSockets を使用していた旧バージョン（ブラウザでの使用は非推奨）は[こちら](https://github.com/openai/openai-realtime-console/tree/websockets)で確認できます。
+
+## ライセンス
 
 MIT
